@@ -1,14 +1,15 @@
 const express = require('express');
-const { favoritesMocks } = require('../mocks/favorites.js');
+const FavoritesServices = require('../services/favorites');
 
 function favoritesApi(app) {
   const router = express.Router();
+  const favoritesServices = new FavoritesServices();
 
   app.use('/api/favorites', router);
 
   router.get('/', async function(req, res, next) {
     try {
-      const favorites = await Promise.resolve(favoritesMocks);
+      const favorites = await favoritesServices.getFavorites();
 
       res.status(200).json({
         data: favorites,
@@ -20,11 +21,13 @@ function favoritesApi(app) {
   });
 
   router.get('/:favoriteID', async function(req, res, next){
+    const { favoriteID } = req.params;
+
     try {
-      const favoriteID = await Promise.resolve(favoritesMocks);
+      const favorite = await favoritesServices.getFavorite({ favoriteID });
 
       res.status(200).json({
-        data: favoriteID,
+        data: favorite,
         message: 'favorite listed'
       });
     } catch (error){
@@ -33,8 +36,9 @@ function favoritesApi(app) {
   });
 
   router.post('/', async function(req, res, next){
+    const { body } = req;
     try {
-      const createFavoriteID = await Promise.resolve(favoritesMocks);
+      const createFavoriteID = await favoritesServices.createFavorite({ body });
 
       res.status(201).json({
         data: createFavoriteID,
@@ -46,8 +50,10 @@ function favoritesApi(app) {
   });
 
   router.patch('/:favoriteID', async function(req, res, next){
+    const { favoriteID } = req.params;
+    const { body } = req;
     try {
-      const updateFavoriteID = await Promise.resolve(favoritesMocks);
+      const updateFavoriteID = await favoritesServices.updateFavorite({ body, favoriteID });
 
       res.status(200).json({
         data: updateFavoriteID,
@@ -59,8 +65,9 @@ function favoritesApi(app) {
   });
 
   router.delete('/:favoriteID', async function(req, res, next){
+    const { favoriteID } = req.params;
     try {
-      const deleteFavoriteID = await Promise.resolve(favoritesMocks);
+      const deleteFavoriteID = await favoritesServices.deleteFavorite({ favoriteID });
 
       res.status(200).json({
         data: deleteFavoriteID,
