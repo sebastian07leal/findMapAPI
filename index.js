@@ -1,15 +1,10 @@
 const express = require('express');
 const app = express();
+const favoritesApi = require('./routes/favorites');
 
 const  { config } = require('./config/index.js');
 
-app.get('/', function(req, res) {
-    res.send('helo world');
-});
-
-app.get('/json', function (req, res) {
-    res.json({ hello: 'world'});
-});
+favoritesApi(app);
 
 app.listen(config.port, function() {
     console.log(`http://localhost:${config.port}`);
