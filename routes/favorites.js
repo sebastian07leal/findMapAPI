@@ -24,7 +24,7 @@ function favoritesApi(app) {
     const { favoriteID } = req.params;
 
     try {
-      const favorite = await favoritesServices.getFavorite({ favoriteID });
+      const favorite = await favoritesServices.getFavorite(favoriteID);
 
       res.status(200).json({
         data: favorite,
@@ -38,8 +38,9 @@ function favoritesApi(app) {
   router.post('/', async function(req, res, next){
     const { body } = req;
     try {
-      const createFavoriteID = await favoritesServices.createFavorite({ body });
-
+ 
+      const createFavoriteID = await favoritesServices.createFavorite( body );
+      
       res.status(201).json({
         data: createFavoriteID,
         message: 'favorite created'
@@ -52,8 +53,9 @@ function favoritesApi(app) {
   router.patch('/:favoriteID', async function(req, res, next){
     const { favoriteID } = req.params;
     const { body } = req;
+
     try {
-      const updateFavoriteID = await favoritesServices.updateFavorite({ body, favoriteID });
+      const updateFavoriteID = await favoritesServices.updateFavorite( body, favoriteID );
 
       res.status(200).json({
         data: updateFavoriteID,
@@ -67,7 +69,7 @@ function favoritesApi(app) {
   router.delete('/:favoriteID', async function(req, res, next){
     const { favoriteID } = req.params;
     try {
-      const deleteFavoriteID = await favoritesServices.deleteFavorite({ favoriteID });
+      const deleteFavoriteID = await favoritesServices.deleteFavorite( favoriteID );
 
       res.status(200).json({
         data: deleteFavoriteID,

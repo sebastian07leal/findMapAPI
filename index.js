@@ -4,6 +4,8 @@ const favoritesApi = require('./routes/favorites');
 
 const  { config } = require('./config/index.js');
 
+app.use(express.json());
+
 favoritesApi(app);
 
 app.listen(config.port, function() {
