@@ -9,6 +9,7 @@ function favoritesApi(app) {
 
   router.get('/', async function(req, res, next) {
     try {
+
       const favorites = await favoritesServices.getFavorites();
 
       res.status(200).json({
